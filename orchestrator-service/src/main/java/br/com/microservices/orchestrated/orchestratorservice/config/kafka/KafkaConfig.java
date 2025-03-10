@@ -34,8 +34,14 @@ public class KafkaConfig {
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private  String autoOffsetReset;
 
-    @Value("${spring.kafka.topic.start-saga}")
-    private  String startSagaTopic;
+    @Value("${spring.kafka.topic.orchestrator}")
+    private  String orchestratorTopic;
+
+    @Value("${spring.kafka.topic.finish-success}")
+    private  String finishSuccessTopic;
+
+    @Value("${spring.kafka.topic.finish-fail}")
+    private  String finishFailTopic;
 
     @Value("${spring.kafka.topic.notify-ending}")
     private  String notifyEnding;
@@ -82,9 +88,20 @@ public class KafkaConfig {
             .build();
     }
 
+
     @Bean
-    public  NewTopic startSagaTopic(){
-        return buildTopic(startSagaTopic);
+    public NewTopic orchestratorTopic(){
+        return buildTopic(orchestratorTopic);
+    }
+
+    @Bean
+    public NewTopic finishSuccessTopic(){
+        return buildTopic(finishSuccessTopic);
+    }
+
+    @Bean
+    public NewTopic finishFailTopic(){
+        return buildTopic(finishFailTopic);
     }
 
     @Bean
