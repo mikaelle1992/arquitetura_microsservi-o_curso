@@ -1,5 +1,5 @@
 package br.com.microservices.orchestrated.orchestratorservice.config.kafka;
-
+import br.com.microservices.orchestrated.orchestratorservice.core.enums.ETopics;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.kafka.clients.admin.NewTopic;
@@ -34,17 +34,6 @@ public class KafkaConfig {
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private  String autoOffsetReset;
 
-    @Value("${spring.kafka.topic.orchestrator}")
-    private  String orchestratorTopic;
-
-    @Value("${spring.kafka.topic.finish-success}")
-    private  String finishSuccessTopic;
-
-    @Value("${spring.kafka.topic.finish-fail}")
-    private  String finishFailTopic;
-
-    @Value("${spring.kafka.topic.notify-ending}")
-    private  String notifyEnding;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory(){
@@ -90,23 +79,57 @@ public class KafkaConfig {
 
 
     @Bean
-    public NewTopic orchestratorTopic(){
-        return buildTopic(orchestratorTopic);
+    public  NewTopic notifyEnding(){
+        return buildTopic(ETopics.NOTIFY_ENDING.getTopic());
+    }
+
+    @Bean
+    public  NewTopic startSagaTopic(){
+        return buildTopic(ETopics.START_SAGA.getTopic());
+    }
+
+    @Bean
+    public  NewTopic baseOrchestratorTopic(){
+        return buildTopic(ETopics.BASE_ORCHESTRATOR.getTopic());
     }
 
     @Bean
     public NewTopic finishSuccessTopic(){
-        return buildTopic(finishSuccessTopic);
+        return buildTopic(ETopics.FINISH_SUCCESS.getTopic());
     }
 
     @Bean
     public NewTopic finishFailTopic(){
-        return buildTopic(finishFailTopic);
+        return buildTopic(ETopics.FINISH_FAIL.getTopic());
     }
 
     @Bean
-    public  NewTopic notifyEnding(){
-        return buildTopic(notifyEnding);
+    public NewTopic paymentSuccessTopic(){
+        return buildTopic(ETopics.PAYMENT_SUCCESS.getTopic());
     }
 
+    @Bean
+    public NewTopic paymentFailTopic(){
+        return buildTopic(ETopics.PAYMENT_FAIL.getTopic());
+    }
+
+    @Bean
+    public NewTopic productValidationSuccessTopic(){
+        return buildTopic(ETopics.PRODUCT_VALIDATION_SUCCESS.getTopic());
+    }
+
+    @Bean
+    public NewTopic productValidationFailTopic(){
+        return buildTopic(ETopics.PRODUCT_VALIDATION_FAIL.getTopic());
+    }
+
+    @Bean
+    public NewTopic inventorySuccessTopic(){
+        return buildTopic(ETopics.INVENTORY_SUCCESS.getTopic());
+    }
+
+    @Bean
+    public NewTopic inventoryFailTopic(){
+        return buildTopic(ETopics.INVENTORY_FAIL.getTopic());
+    }
 }
